@@ -1,2 +1,2 @@
-FROM springboot:onbuild
+FROM chanwit/springboot:onbuild
 
