@@ -1,0 +1,22 @@
+FROM frolvlad/alpine-oraclejdk8
+
+ENV SRC_DIR /app/src
+ENV BIN_DIR /app/bin
+ENV SPRINGBOOT_VERSION 1.2.3.RELEASE
+
+RUN apk update && apk add bash curl unzip
+RUN curl -s get.sdkman.io | bash
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install gradle && sdk install springboot $SPRINGBOOT_VERSION"
+
+RUN mkdir -p $SRC_DIR
+WORKDIR $SRC_DIR
+
+EXPOSE 8080
+
+CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/bin/app.jar"]
+
+ONBUILD RUN mkdir -p $BIN_DIR
+ONBUILD ADD . $SRC_DIR
+ONBUILD RUN bash -c "source $HOME/.bashrc && spring jar $BIN_DIR/app.jar $SRC_DIR"
+
+
