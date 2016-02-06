@@ -18,7 +18,7 @@ public class Application {
 	@RequestMapping("/")
 	public @ResponseBody Map<String, String> home() {
 		return new HashMap<String, String>(){{
-			put("hello", "docker world");
+			put("edit", "docker world");
 		}};
 	}
 
